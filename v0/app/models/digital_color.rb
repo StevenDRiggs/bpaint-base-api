@@ -1,0 +1,2 @@
+class DigitalColor < ApplicationRecord
+end
