@@ -1,5 +1,5 @@
 class AnalogColorsController < ApplicationController
-  before_action :set_analog_color, only: [:show, :update, :destroy]
+  before_action :set_analog_color, only: %i[ show update destroy ]
 
   # GET /analog_colors
   def index
@@ -46,6 +46,6 @@ class AnalogColorsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def analog_color_params
-      params.require(:analog_color).permit(:creator_id_id, :body, :brandname, :glossiness, :image_url, :lightfastness, :medium, :name, :opaqueness, :series, :thickness, :tinting)
+      params.require(:analog_color).permit(:creator_id, :body, :brandname, :glossiness, :image_url, :lightfastness, :medium, :name, :opaqueness, :series, :thickness, :tinting)
     end
 end

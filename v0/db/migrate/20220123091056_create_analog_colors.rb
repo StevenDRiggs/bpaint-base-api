@@ -1,20 +1,23 @@
-class CreateAnalogColors < ActiveRecord::Migration[6.1]
+class CreateAnalogColors < ActiveRecord::Migration[7.0]
   def change
     create_table :analog_colors do |t|
-      t.bigint :creator_id, null: false, foreign_key: {to_table: :users}
-      t.string :body, null: false, default: 'heavy', limit: 50
+      t.integer :creator_id, foreign_key: {to_table: :users}, on_delete: :nullify
+      t.string :body, limit: 50, null: false, default: 'heavy'
       t.string :brandname, limit: 200
       t.integer :glossiness, null: false, default: 100
-      t.string :image_url, null: false, limit: 1000
+      t.string :image_url, limit: 1000, null: false
       t.integer :lightfastness, null: false, default: 1
-      t.string :medium, null: false, default: 50
-      t.string :name, null: false, limit: 200
+      t.string :medium, limit: 50, null: false
+      t.string :name, limit: 200, null: false
       t.integer :opaqueness, null: false, default: 100
       t.string :series, limit: 200
       t.integer :thickness, null: false, default: 75
       t.integer :tinting, null: false, default: 100
 
       t.timestamps
+
+      t.index :image_url, unique: true
+      t.index :name, unique: true
     end
   end
 end

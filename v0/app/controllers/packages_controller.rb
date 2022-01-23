@@ -1,5 +1,5 @@
 class PackagesController < ApplicationController
-  before_action :set_package, only: [:show, :update, :destroy]
+  before_action :set_package, only: %i[ show update destroy ]
 
   # GET /packages
   def index
@@ -46,6 +46,6 @@ class PackagesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def package_params
-      params.require(:package).permit(:creator_id_id)
+      params.require(:package).permit(:creator_id)
     end
 end

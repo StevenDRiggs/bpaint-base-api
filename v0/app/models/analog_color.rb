@@ -1,7 +1,8 @@
 class AnalogColor < ApplicationRecord
-  has_many :recipes, through: :analog_color_recipes
-  has_many :package_recipes, through: :analog_color_recipes
-  has_many :packages, through: :package_recipes
+  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id', inverse_of: :created_analog_colors
 
-  belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
+  has_many :analog_color_analog_recipes
+  has_many :analog_recipes, through: :analog_color_analog_recipes
+  has_many :package_analog_recipes, through: :analog_recipes
+  has_many :packages, through: :package_analog_recipes
 end

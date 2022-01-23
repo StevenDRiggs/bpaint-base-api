@@ -1,5 +1,5 @@
 class DigitalColorsController < ApplicationController
-  before_action :set_digital_color, only: [:show, :update, :destroy]
+  before_action :set_digital_color, only: %i[ show update destroy ]
 
   # GET /digital_colors
   def index
