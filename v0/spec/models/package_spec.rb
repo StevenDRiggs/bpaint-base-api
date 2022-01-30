@@ -26,6 +26,7 @@ RSpec.describe Package, type: :model do
       end
 
       it 'correctly associates the user' do
+        @p.save
         expect(@p.creator.id).to eq(@user.id)
         expect(@user.created_packages[0].id).to eq(@p.id)
       end
