@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnalogColor, type: :model do
   before :context do
-    @user = User.create!(username: 'username', password: 'password')
+    @user = User.create!(username: 'username', password: 'password', email: 'test@example.com')
   end
 
   after :context do

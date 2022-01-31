@@ -38,14 +38,39 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # POST /login
+  def login
+    @user = User.find_by_username_or_email(user_params[:username_or_email])
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:username, :password, :password_confirmation, :preferences, :flags)
+    if @user && @user.authenticate(user_params[:password])
+      set_JWT_token user_id: @user.id
+
+      if @token
+        render json: {
+          user: @user,
+          token: @token,
+        }
+      else
+        render json: {
+          errors: ['Invalid Token']
+        }
+      end
+
+    else
+      render json: {
+        errors: ['Username or password incorrect']
+      }
     end
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:username, :password, :email, :username_or_email, :token, :preferences, :flags)
+  end
 end
