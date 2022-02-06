@@ -1,0 +1,2 @@
+2022-02-06 09:59:40.521 MST [26564] FATAL:  lock file "postmaster.pid" already exists
+2022-02-06 09:59:40.521 MST [26564] HINT:  Is another postmaster (PID 83675) running in data directory "/Users/steven.riggs/.postgresql/data"?
