@@ -1,2 +1,14 @@
 2022-02-06 09:59:40.521 MST [26564] FATAL:  lock file "postmaster.pid" already exists
 2022-02-06 09:59:40.521 MST [26564] HINT:  Is another postmaster (PID 83675) running in data directory "/Users/steven.riggs/.postgresql/data"?
+2022-02-09 00:11:53.198 MST [25666] FATAL:  lock file "postmaster.pid" already exists
+2022-02-09 00:11:53.198 MST [25666] HINT:  Is another postmaster (PID 25374) running in data directory "/Users/steven.riggs/.postgresql/data"?
+2022-02-09 00:11:53.425 MST [25668] LOG:  starting PostgreSQL 14.1 on x86_64-apple-darwin21.1.0, compiled by Apple clang version 13.0.0 (clang-1300.0.29.3), 64-bit
+2022-02-09 00:11:53.426 MST [25668] LOG:  listening on IPv6 address "::1", port 5432
+2022-02-09 00:11:53.426 MST [25668] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2022-02-09 00:11:53.427 MST [25668] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2022-02-09 00:11:53.430 MST [25669] LOG:  database system was shut down at 2022-02-09 00:11:53 MST
+2022-02-09 00:11:53.433 MST [25668] LOG:  database system is ready to accept connections
+2022-02-11 15:32:07.931 MST [25668] LOG:  received smart shutdown request
+2022-02-11 15:32:07.935 MST [25668] LOG:  background worker "logical replication launcher" (PID 25675) exited with exit code 1
+2022-02-11 15:32:07.935 MST [25670] LOG:  shutting down
+2022-02-11 15:32:07.945 MST [25668] LOG:  database system is shut down
