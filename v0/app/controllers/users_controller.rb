@@ -63,6 +63,19 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /validate
+  def validate
+    begin
+      render json: {
+        user: User.find(read_JWT_token(params[:token])[0]['user_id'])
+      }
+    rescue => err
+      render json: {
+        errors: ['Invalid token', err]
+      }
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
