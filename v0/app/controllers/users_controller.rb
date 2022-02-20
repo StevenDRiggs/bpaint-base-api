@@ -18,9 +18,18 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
+      set_JWT_token user_id: @user.id
+
+      if @token
+        render json: {
+          user: @user,
+          token: @token,
+        }
+      else
+        render json: {
+          errors: @user.errors.full_messages,
+        }
+      end
     end
   end
 
