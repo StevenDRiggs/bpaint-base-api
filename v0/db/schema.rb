@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_31_033031) do
+ActiveRecord::Schema.define(version: 2022_02_27_203355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 2022_01_31_033031) do
     t.integer "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name", null: false
+    t.index ["name"], name: "index_packages_on_name", unique: true
   end
 
   create_table "user_package_purchases", force: :cascade do |t|
@@ -87,6 +89,9 @@ ActiveRecord::Schema.define(version: 2022_01_31_033031) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_admin", default: false, null: false
     t.string "email", null: false
+    t.string "image_url", default: "https://picsum.photos/200/300", null: false
+    t.json "favorites", default: []
+    t.json "creations", default: []
   end
 
 end
