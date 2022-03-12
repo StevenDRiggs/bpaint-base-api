@@ -90,8 +90,7 @@ ActiveRecord::Schema.define(version: 2022_02_27_203355) do
     t.boolean "is_admin", default: false, null: false
     t.string "email", null: false
     t.string "image_url", default: "https://picsum.photos/200/300", null: false
-    t.json "favorites", default: []
-    t.json "creations", default: []
+    t.json "favorites", default: {"packages"=>[], "recipes"=>[], "analog_colors"=>[], "digital_colors"=>[]}
   end
 
 end

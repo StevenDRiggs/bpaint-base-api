@@ -15,4 +15,16 @@ class AnalogRecipe < ApplicationRecord
 
     super
   end
+
+  def display
+    self.analog_colors.map {|color|
+      color.name
+    }.join(', ')
+  end
+
+  def as_json(options = {})
+    options[:methods] ||= [:display]
+
+    super(options)
+  end
 end

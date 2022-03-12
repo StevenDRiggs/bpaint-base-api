@@ -23,8 +23,53 @@ class User < ApplicationRecord
   end
 
 
-  def as_json(options)
+  def create_package(name)
+    self.created_packages.create(name: name)
+  end
+
+  def create_recipe
+    self.created_analog_recipes.create
+  end
+
+  def create_color(**args)
+    new_color_hashmap = {
+      brandname: args[:brandname],
+      medium: args[:medium],
+      name: args[:name],
+      series: args[:series] || 'undefined',
+    }
+    if args[:image_file] != nil
+      # TODO: image storage methods
+    else
+      new_color_hashmap[:image_url] = args[:image_url]
+    end
+    for arg in %i[body glossiness lightfastness opaqueness thickness tinting]
+      if args[arg] != nil
+        new_color_hashmap[arg] = args[arg]
+      end
+    end
+
+    new_color = self.created_analog_colors.create(**new_color_hashmap)
+    new_recipe = self.create_recipe
+    new_recipe.analog_colors.add(new_color)
+    quantity_adjustor = new_recipe.analogcolor_analog_recipes.last
+    quantity_adjustor.quantity = 1
+    quantity_adjustor.save
+
+    new_color
+  end
+
+  def creations
+    {
+      packages: self.created_packages.all,
+      recipes: self.created_analog_recipes.all,
+      analog_colors: self.created_analog_colors.all,
+    }
+  end
+
+  def as_json(options = {})
     options[:except] ||= [:password_digest]
+    options[:methods] ||= [:creations]
 
     super(options)
   end
