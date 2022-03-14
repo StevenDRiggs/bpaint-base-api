@@ -51,8 +51,8 @@ class User < ApplicationRecord
 
     new_color = self.created_analog_colors.create(**new_color_hashmap)
     new_recipe = self.create_recipe
-    new_recipe.analog_colors.add(new_color)
-    quantity_adjustor = new_recipe.analogcolor_analog_recipes.last
+    new_recipe.analog_colors.append(new_color)
+    quantity_adjustor = new_recipe.analog_color_analog_recipes.last
     quantity_adjustor.quantity = 1
     quantity_adjustor.save
 
