@@ -8,7 +8,7 @@ class PackagesController < ApplicationController
     render json: @packages
   end
 
-  # GET /packages/1
+  # GET /packages/:id or /packages/:slug
   def show
     render json: @package
   end
@@ -41,11 +41,12 @@ class PackagesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      @package = Package.find(params[:id])
+      puts params
+      @package = Package.find_by(id: params[:id]) || Package.find_by_slug(params[:slug])
     end
 
     # Only allow a list of trusted parameters through.
     def package_params
-      params.require(:package).permit(:creator_id)
+      params.require(:package).permit([:creator_id, :name])
     end
 end

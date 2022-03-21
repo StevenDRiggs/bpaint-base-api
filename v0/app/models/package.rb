@@ -6,8 +6,50 @@ class Package < ApplicationRecord
 
   has_many :package_analog_recipes
   has_many :analog_recipes, through: :package_analog_recipes
-  has_many :analog_color_analog_recipes, through: :analog_recipes
-  has_many :analog_colors, through: :analog_color_analog_recipes
+
+
+  def self.find_by_slug(slug)
+    Package.all.filter {|pkg| pkg.slug == slug}.first
+  end
+
+
+  def save
+    self.name = self.name.strip
+    prefix = self.name =~ /\A\d+\Z/ ? '_' : ''
+    slugified_name = self.name.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '').downcase
+
+    similar = Package.all.filter {|pkg| pkg.slug.starts_with?(slugified_name)}
+    if similar.length > 1 || (similar.length == 1 && similar[-1].slug =~ /.+_\d+/)
+      save_index = similar[-1].slug.split('_')[-1].to_i + 1
+    elsif similar.length == 1
+      save_index = 1
+    else
+      save_index = -1
+    end
+
+    self.slug = prefix + slugified_name + (save_index > -1 ? "_#{save_index}" : '')
+
+    super
+  end
+
+  def save!
+    self.name = self.name.strip
+    prefix = self.name =~ /\A\d+\Z/ ? '_' : ''
+    slugified_name = self.name.gsub(/\s+/, '-').gsub(/[^A-Za-z0-9-]/, '').downcase
+
+    similar = Package.all.filter {|pkg| pkg.slug.starts_with?(slugified_name)}
+    if similar.length > 1 || (similar.length == 1 && similar[-1].slug =~ /.+_\d+/)
+      save_index = similar[-1].slug.split('_')[-1].to_i + 1
+    elsif similar.length == 1
+      save_index = 1
+    else
+      save_index = -1
+    end
+
+    self.slug = prefix + slugified_name + (save_index > -1 ? "_#{save_index}" : '')
+
+    super
+  end
 
   def creator
     if self.creator_id.nil?
@@ -15,5 +57,11 @@ class Package < ApplicationRecord
     end
 
     super
+  end
+
+  def as_json(options = {})
+    options[:methods] ||= [:analog_recipes, :slug]
+
+    super(options)
   end
 end
