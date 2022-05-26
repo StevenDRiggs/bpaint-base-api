@@ -46,6 +46,6 @@ class DigitalColorsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def digital_color_params
-      params.require(:digital_color).permit(:name, :_integer_value)
+      params.require(:digital_color).permit(:name, :UID)
     end
 end

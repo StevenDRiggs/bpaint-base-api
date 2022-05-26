@@ -10,68 +10,67 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_21_000543) do
+ActiveRecord::Schema.define(version: 2022_05_26_060941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "analog_color_analog_recipes", force: :cascade do |t|
-    t.integer "analog_color_id"
-    t.integer "analog_recipe_id"
-    t.integer "quantity", default: 1, null: false
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["analog_color_id", "analog_recipe_id"], name: "noDupColorsInRecipe", unique: true
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: 6, null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "analog_colors", force: :cascade do |t|
-    t.integer "creator_id"
-    t.string "body", limit: 50, default: "heavy", null: false
-    t.string "brandname", limit: 200
-    t.integer "glossiness", default: 100, null: false
-    t.string "image_url", limit: 1000, null: false
-    t.integer "lightfastness", default: 1, null: false
-    t.string "medium", limit: 50, null: false
-    t.string "name", limit: 200, null: false
-    t.integer "opaqueness", default: 100, null: false
-    t.string "series", limit: 200
-    t.integer "thickness", default: 75, null: false
-    t.integer "tinting", default: 100, null: false
+    t.string "slug", null: false
+    t.string "image_url", null: false
+    t.string "name", null: false
+    t.string "body"
+    t.string "brandname"
+    t.integer "glossiness"
+    t.integer "lightfastness"
+    t.string "medium"
+    t.integer "opaqueness"
+    t.string "series"
+    t.integer "thickness"
+    t.integer "tinting"
+    t.bigint "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["image_url"], name: "index_analog_colors_on_image_url", unique: true
-    t.index ["name"], name: "index_analog_colors_on_name", unique: true
-  end
-
-  create_table "analog_recipes", force: :cascade do |t|
-    t.integer "creator_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "body", "brandname", "glossiness", "lightfastness", "medium", "opaqueness", "series", "thickness", "tinting"], name: "unique_analog_colors", unique: true
+    t.index ["slug"], name: "index_analog_colors_on_slug", unique: true
   end
 
   create_table "digital_colors", force: :cascade do |t|
-    t.string "name", limit: 200, null: false
-    t.bigint "_integer_value", null: false
+    t.string "name"
+    t.bigint "UID", null: false
+    t.bigint "creator_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["_integer_value"], name: "index_digital_colors_on__integer_value", unique: true
-  end
-
-  create_table "package_analog_recipes", force: :cascade do |t|
-    t.integer "package_id"
-    t.integer "analog_recipe_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["package_id", "analog_recipe_id"], name: "index_package_analog_recipes_on_package_id_and_analog_recipe_id", unique: true
-  end
-
-  create_table "packages", force: :cascade do |t|
-    t.integer "creator_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "name", null: false
-    t.string "slug", default: "", null: false
-    t.index ["name"], name: "index_packages_on_name", unique: true
+    t.index ["UID"], name: "index_digital_colors_on_UID", unique: true
   end
 
   create_table "user_package_purchases", force: :cascade do |t|
@@ -94,4 +93,8 @@ ActiveRecord::Schema.define(version: 2022_03_21_000543) do
     t.json "favorites", default: {"packages"=>[], "recipes"=>[], "analog_colors"=>[], "digital_colors"=>[]}
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "analog_colors", "users", column: "creator_id"
+  add_foreign_key "digital_colors", "users", column: "creator_id"
 end

@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :digital_colors
   resources :analog_colors
-  resources :analog_recipes
   resources :packages, except: [:show]
   resources :users
 
