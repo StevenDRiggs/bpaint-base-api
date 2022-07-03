@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_060941) do
+ActiveRecord::Schema.define(version: 2022_05_27_054318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,14 @@ ActiveRecord::Schema.define(version: 2022_05_26_060941) do
     t.index ["slug"], name: "index_analog_colors_on_slug", unique: true
   end
 
+  create_table "analog_recipes", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "image_url", null: false
+    t.json "specifics", default: [{"color"=>nil, "quantity"=>1}, {"color"=>nil, "quantity"=>1}], null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "digital_colors", force: :cascade do |t|
     t.string "name"
     t.bigint "UID", null: false
@@ -71,13 +79,6 @@ ActiveRecord::Schema.define(version: 2022_05_26_060941) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["UID"], name: "index_digital_colors_on_UID", unique: true
-  end
-
-  create_table "user_package_purchases", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "package_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
